@@ -1,6 +1,6 @@
 # 第五讲 MySQL的课堂练习
 ## 数据库中修改字符集手段
-1.修改字符集
+1. 修改字符集
 ```
 SET character_set_client = utf8;
 SET character_set_connection = utf8;
@@ -11,20 +11,20 @@ SET collation_connection = utf8;
 SET collation_database = utf8;
 SET collation_server = utf8;
 ```
-2.修改数据库的字符集
+2. 修改数据库的字符集
 ```
 alter database selectTest character set utf8;
 ```
-3.修改数据表的字符集
+3. 修改数据表的字符集
 ```
 alter table student character set utf8;
 ```
-4.修改数据表字段的字符集
+4. 修改数据表字段的字符集
 ```
 alter table student change student_name student_name varchar(10) character set utf8;
 ```
 ## MySQL的查询练习(学生表、课程表、教师表、成绩表)
-1.建立学生表
+1. 建立学生表
 ```
 create table student(
 	student_id varchar(20) primary key,
@@ -34,12 +34,12 @@ create table student(
 	class varchar(20)
 );
 ```
-2.修改数据表字段的字符集
+2. 修改数据表字段的字符集
 ```
 alter table student change student_name student_name varchar(20) character set utf8;
 alter table student change student_sex student_sex varchar(10) character set utf8;
 ```
-3.建立课程表
+3. 建立课程表
 ```
 create table course(
 	course_id varchar(20) primary key,
@@ -48,11 +48,11 @@ create table course(
 	foreign key(teacher_id) references teacher(teacher_id)
 );
 ```
-4.修改数据表字段的字符集
+4. 修改数据表字段的字符集
 ```
 alter table course change course_name course_name varchar(20) character set utf8;
 ```
-5.建立教师表
+5. 建立教师表
 ```
 create table teacher(
 	teacher_id varchar(20) primary key,
@@ -63,14 +63,14 @@ create table teacher(
 	teacher_department varchar(20) not null
 );
 ```
-6.修改数据表字段的字符集
+6. 修改数据表字段的字符集
 ```
 alter table teacher change teacher_name teacher_name varchar(20) character set utf8;
 alter table teacher change teacher_sex teacher_sex varchar(10) character set utf8;
 alter table teacher change teacher_profession teacher_profession varchar(20) character set utf8;
 alter table teacher change teacher_department teacher_department varchar(20) character set utf8;
 ```
-7.建立成绩表
+7. 建立成绩表
 ```
 # 修改前
 create table score(
@@ -91,7 +91,7 @@ create table score(
 	primary key(student_id, course_id)
 );
 ```
-8.往数据表中添加数据
+8. 往数据表中添加数据
 ```
 # 添加学生信息
 insert into student values('101','管华','男','1977-09-01','95033');
@@ -131,7 +131,7 @@ insert into score values('103','6-166','85');
 insert into score values('105','6-166','79');
 insert into score values('109','6-166','81');
 ```
-9.查询student表的所有记录
+9. 查询student表的所有记录
 ```
 mysql> select * from student;
 +------------+--------------+-------------+---------------------+-------+
@@ -149,7 +149,7 @@ mysql> select * from student;
 +------------+--------------+-------------+---------------------+-------+
 9 rows in set (0.00 sec)
 ```
-10.查询student表中的所有记录的student_name、student_sex和class列
+10. 查询student表中的所有记录的student_name、student_sex和class列
 ```
 mysql> select student_name,student_sex,class from student;
 +--------------+-------------+-------+
@@ -167,7 +167,7 @@ mysql> select student_name,student_sex,class from student;
 +--------------+-------------+-------+
 9 rows in set (0.00 sec)
 ```
-11.查询教师所有的单位即不重复的teacher_department列
+11. 查询教师所有的单位即不重复的teacher_department列
 ```
 -- distinct排除重复
 mysql> select distinct teacher_department from teacher;
@@ -179,7 +179,7 @@ mysql> select distinct teacher_department from teacher;
 +--------------------+
 2 rows in set (0.00 sec)
 ```
-12.查询score表中成绩在60到80之间的所有记录
+12. 查询score表中成绩在60到80之间的所有记录
 ```
 # 查询区间 between ... and ...
 mysql> select * from score where degree between 60 and 80;
@@ -205,7 +205,7 @@ mysql> select * from score where degree > 60 and degree < 80;
 +------------+-----------+--------+
 4 rows in set (0.00 sec)
 ```
-13.查询score表中成绩为85，86或88的记录
+13. 查询score表中成绩为85，86或88的记录
 ```
 -- 表示或者关系的查询(in)
 mysql> select * from score where degree in (85, 86, 88);
@@ -218,7 +218,7 @@ mysql> select * from score where degree in (85, 86, 88);
 +------------+-----------+--------+
 3 rows in set (0.00 sec)
 ```
-14.查询student表中“95031”班或性别为“女”的同学记录
+14. 查询student表中“95031”班或性别为“女”的同学记录
 ```
 -- or表示或者
 mysql> select * from student where class='95031' or student_sex='女';
@@ -234,7 +234,7 @@ mysql> select * from student where class='95031' or student_sex='女';
 +------------+--------------+-------------+---------------------+-------+
 6 rows in set (0.00 sec)
 ```
-15.以class顺序查询student表的所有记录
+15. 以class顺序查询student表的所有记录
 ```
 # 降序（默认升序）
 mysql> select * from student order by class desc;
@@ -270,7 +270,7 @@ mysql> select * from student order by class asc;
 +------------+--------------+-------------+---------------------+-------+
 9 rows in set (0.00 sec)
 ```
-16.以course_id升序、degree降序查询score表的所有记录
+16. 以course_id升序、degree降序查询score表的所有记录
 ```
 mysql> select * from score order by course_id asc,degree desc;
 +------------+-----------+--------+
@@ -288,7 +288,7 @@ mysql> select * from score order by course_id asc,degree desc;
 +------------+-----------+--------+
 9 rows in set (0.00 sec)
 ```
-17.查询“95031”班的学生人数
+17. 查询“95031”班的学生人数
 ```
 # 统计count
 mysql> select count(*) from student where class='95031';
@@ -299,7 +299,7 @@ mysql> select count(*) from student where class='95031';
 +----------+
 1 row in set (0.01 sec)
 ```
-18.查询score表中的最高分的学生学号和课程号(子查询或者排序)
+18. 查询score表中的最高分的学生学号和课程号(子查询或者排序)
 ```
 # 子查询做法
 1.找到最高分
@@ -343,7 +343,7 @@ mysql> select student_id,course_id,degree from score order by degree desc limit 
 +------------+-----------+--------+
 1 row in set (0.00 sec)
 ```
-19.查询每门课的平均成绩
+19. 查询每门课的平均成绩
 ```
 mysql> select * from course;
 +-----------+-----------------+------------+
@@ -375,7 +375,7 @@ mysql> select course_id,avg(degree) from score group by course_id;
 +-----------+-------------+
 3 rows in set (0.00 sec)
 ```
-20.查询score表中至少有两名学生选修的并以3开头的课程的平均分数
+20. 查询score表中至少有两名学生选修的并以3开头的课程的平均分数
 ```
 -- 第一步
 mysql> select course_id from score group by course_id;
@@ -426,7 +426,7 @@ mysql> select course_id,avg(degree),count(*) from score group by course_id havin
 +-----------+-------------+----------+
 2 rows in set (0.00 sec)
 ```
-21.查询分数大于70、小于90的student_id列
+21. 查询分数大于70、小于90的student_id列
 ```
 -- 第一种
 mysql> select student_id,degree from score where 70 < degree < 90;
@@ -475,7 +475,7 @@ mysql> select student_id,degree from score where degree between 70 and 90;
 +------------+--------+
 7 rows in set (0.01 sec)
 ```
-22.查询所有学生的student_name、course_id和degree列
+22. 查询所有学生的student_name、course_id和degree列
 ```
 -- 第一步
 mysql> select student_name from student;
@@ -562,7 +562,7 @@ mysql> select student_name,course_id,degree from student,score where student.stu
 +--------------+-----------+--------+
 9 rows in set (0.01 sec)
 ```
-23.查询所有学生的student_id、course_name和degree列
+23. 查询所有学生的student_id、course_name和degree列
 ```
 mysql> select student_id,course_name,degree from course,score where course.course_id=score.course_id;
 +------------+-----------------+--------+
@@ -580,7 +580,7 @@ mysql> select student_id,course_name,degree from course,score where course.cours
 +------------+-----------------+--------+
 9 rows in set (0.00 sec)
 ```
-24.查询所有学生的student_name、course_name和degree列
+24. 查询所有学生的student_name、course_name和degree列
 ```
 mysql> select student_name,course_name,degree from student,course,score where student.student_id=score.student_id and course.course_id=score.course_id;
 +--------------+-----------------+--------+
@@ -631,7 +631,7 @@ mysql> select student.student_id,course.course_id,score.student_id,score.course_
 +------------+-----------+------------+-----------+--------------+-----------------+--------+
 9 rows in set (0.00 sec)
 ```
-25.查询'95031'班学生每门课的平均分
+25. 查询'95031'班学生每门课的平均分
 ```
 # 第一种方法
 mysql> select course_id,avg(degree) from student,score where student.student_id=score.student_id and class='95031' group by course_id;
@@ -725,7 +725,7 @@ mysql> select course_id,avg(degree) from score where student_id in (select stude
 +-----------+-------------+
 3 rows in set (0.00 sec)
 ```
-26.查询选修“3-105”课程的成绩高于“109”号同学“3-105”成绩的所有同学的记录
+26. 查询选修“3-105”课程的成绩高于“109”号同学“3-105”成绩的所有同学的记录
 ```
 -- 第一步
 mysql> select degree from score where student_id='109' and course_id='3-105';
@@ -760,7 +760,7 @@ mysql> select * from score where course_id='3-105' and degree >(select degree fr
 +------------+-----------+--------+
 2 rows in set (0.00 sec)
 ```
-27.查询成绩高于学号为“109”、课程号为“3-105”的成绩的所有记录
+27. 查询成绩高于学号为“109”、课程号为“3-105”的成绩的所有记录
 ```
 mysql> select * from score where degree >(select degree from score where student_id='109' and course_id='3-105');
 +------------+-----------+--------+
@@ -775,7 +775,7 @@ mysql> select * from score where degree >(select degree from score where student
 +------------+-----------+--------+
 6 rows in set (0.00 sec)
 ```
-28.查询和学号为108、101的同学同年出生的所有学生的student_id、student_name和student_birthday列
+28. 查询和学号为108、101的同学同年出生的所有学生的student_id、student_name和student_birthday列
 ```
 -- 第一步
 mysql> select * from student where student_id in (108,101);
@@ -809,7 +809,7 @@ mysql> select * from student where year(student_birthday) in (select year(studen
 +------------+--------------+-------------+---------------------+-------+
 4 rows in set (0.00 sec)
 ```
-29.查询张旭教师任课学生的成绩
+29. 查询张旭教师任课学生的成绩
 ```
 -- 多层嵌套子查询
 mysql> select student_id,course_id,degree from score where course_id in(select course_id from course where teacher_id in(select teacher_id from teacher where teacher_name='张旭'));
@@ -822,7 +822,7 @@ mysql> select student_id,course_id,degree from score where course_id in(select c
 +------------+-----------+--------+
 3 rows in set (0.00 sec)
 ```
-30.查询选修某课程的同学人数多于5人的教师姓名
+30. 查询选修某课程的同学人数多于5人的教师姓名
 ```
 -- 再度插入数据
 insert into score values('101','3-105','90');
@@ -867,7 +867,7 @@ mysql> select teacher_name from teacher where teacher_id in(select teacher_id fr
 +--------------+
 1 row in set (0.01 sec)
 ```
-31.查询95033班和95031班全体学生的记录
+31. 查询95033班和95031班全体学生的记录
 ```
 -- 再度插入数据
 insert into student values('110','张飞','男','1974-06-03','95038');
@@ -889,7 +889,7 @@ mysql> select * from student where class in (95033,95031);
 +------------+--------------+-------------+---------------------+-------+
 9 rows in set (0.00 sec)
 ```
-32.查询存在有85分以上成绩的课程course_id
+32. 查询存在有85分以上成绩的课程course_id
 ```
 mysql> select course_id,degree from score where degree > 85;
 +-----------+--------+
@@ -904,7 +904,7 @@ mysql> select course_id,degree from score where degree > 85;
 +-----------+--------+
 6 rows in set (0.00 sec)
 ```
-33.查询出“计算机系”教师所教课程的成绩表
+33. 查询出“计算机系”教师所教课程的成绩表
 ```
 -- 第一步
 mysql> select teacher_id from teacher where teacher_department='计算机系';
@@ -943,7 +943,7 @@ mysql> select * from score where course_id in (select course_id from course wher
 +------------+-----------+--------+
 9 rows in set (0.00 sec)
 ```
-34.查询”计算机系“与”电子工程系“不同职称的教师的teacher_name和teacher_profession
+34. 查询”计算机系“与”电子工程系“不同职称的教师的teacher_name和teacher_profession
 ```
 # union求并集
 -- 第一步
@@ -994,7 +994,7 @@ mysql> select teacher_name,teacher_profession from teacher where teacher_departm
 +--------------+--------------------+
 2 rows in set (0.01 sec)
 ```
-35.查询选修编号为”3-105“课程且成绩至少高于选修编号为”3-245“的同学的course_id、stdeunt_id和degree，并按degree从高到低次序排序
+35. 查询选修编号为”3-105“课程且成绩至少高于选修编号为”3-245“的同学的course_id、stdeunt_id和degree，并按degree从高到低次序排序
 ```
 # 自己的写法
 mysql> select * from score where course_id='3-105' and degree >(select min(degree) from score where course_id='3-245') order by degree desc;
@@ -1051,7 +1051,7 @@ mysql> select * from score where course_id='3-105' and degree >any(select degree
 +------------+-----------+--------+
 6 rows in set (0.00 sec)
 ```
-36.查询选修编号为”3-105“且成绩高于选修编号为”3-245“课程的同学的course_id、student_id和degree
+36. 查询选修编号为”3-105“且成绩高于选修编号为”3-245“课程的同学的course_id、student_id和degree
 ```
 # 自己写法
 mysql> select * from score where course_id='3-105' and degree >(select max(degree) from score where course_id='3-245');
@@ -1081,7 +1081,7 @@ mysql> select * from score where course_id='3-105' and degree >all(select degree
 +------------+-----------+--------+
 5 rows in set (0.00 sec)
 ```
-37.查询所有教师和同学的name、sex和birthday
+37. 查询所有教师和同学的name、sex和birthday
 ```
 # 自己写法
 mysql> select teacher_name,teacher_birthday,teacher_sex,student_name,student_sex,student_birthday from score,student,course,teacher where teacher.teacher_id=course.teacher_id and course.course_id=score.course_id and score.student_id=student.student_id;
@@ -1158,7 +1158,7 @@ mysql> select teacher_name as name,teacher_sex as sex,teacher_birthday as birthd
 +-----------+------+---------------------+
 14 rows in set (0.00 sec)
 ```
-38.查询所有“女教师”和“女”同学的name、sex和birthday
+38. 查询所有“女教师”和“女”同学的name、sex和birthday
 ```
 -- 第一步
 mysql> select * from teacher where teacher_sex='女';
@@ -1192,7 +1192,7 @@ mysql> select student_name as name,student_sex as sex,student_birthday as birthd
 +--------+------+---------------------+
 4 rows in set (0.00 sec)
 ```
-39.查询成绩比该课程平均成绩低的同学的成绩表
+39. 查询成绩比该课程平均成绩低的同学的成绩表
 ```
 -- 第一步
 -- 数据修改
@@ -1260,7 +1260,7 @@ mysql> select * from score a where degree < (select avg(degree) from score b whe
 +------------+-----------+--------+
 4 rows in set (0.00 sec)
 ```
-40.查询所有任课教师的teacher_name和teacher_department
+40. 查询所有任课教师的teacher_name和teacher_department
 ```
 -- 第一步
 mysql> select * from course;
@@ -1286,7 +1286,7 @@ mysql> select teacher_name,teacher_department from teacher where teacher_id in (
 +--------------+--------------------+
 4 rows in set (0.01 sec)
 ```
-41.查询至少有两名学生的班号
+41. 查询至少有两名学生的班号
 ```
 -- 第一步
 mysql> select * from student;
@@ -1316,7 +1316,7 @@ mysql> select class from student where student_sex='男' group by class having c
 +-------+
 2 rows in set (0.00 sec)
 ```
-42.查询student表中不姓“王”的同学记录
+42. 查询student表中不姓“王”的同学记录
 ```
 mysql> select * from student where student_name not like '王%';
 +------------+--------------+-------------+---------------------+-------+
@@ -1332,7 +1332,7 @@ mysql> select * from student where student_name not like '王%';
 +------------+--------------+-------------+---------------------+-------+
 7 rows in set (0.00 sec)
 ```
-43.查询student表中的每个学生的姓名和年龄
+43. 查询student表中的每个学生的姓名和年龄
 ```
 # 年龄=当前年份-出生年份
 
@@ -1382,7 +1382,7 @@ mysql> select student_name,year(now())-year(student_birthday) as age from studen
 +--------------+------+
 10 rows in set (0.01 sec)
 ```
-44.查询student表中最大、最小的student_birthday日期值
+44. 查询student表中最大、最小的student_birthday日期值
 ```
 -- max、min
 mysql> select max(student_birthday),min(student_birthday) from student;
@@ -1393,7 +1393,7 @@ mysql> select max(student_birthday),min(student_birthday) from student;
 +-----------------------+-----------------------+
 1 row in set (0.00 sec)
 ```
-45.以班号和年龄从大到小的顺序查询student表中的全部记录
+45. 以班号和年龄从大到小的顺序查询student表中的全部记录
 ```
 mysql> select * from student order by class desc,student_birthday;
 +------------+--------------+-------------+---------------------+-------+
@@ -1412,7 +1412,7 @@ mysql> select * from student order by class desc,student_birthday;
 +------------+--------------+-------------+---------------------+-------+
 10 rows in set (0.00 sec)
 ```
-46.查询“男”教师及其所上的课程
+46. 查询“男”教师及其所上的课程
 ```
 -- 第一步
 mysql> select teacher_id from teacher where teacher_sex='男';
@@ -1434,7 +1434,7 @@ mysql> select * from course where teacher_id in (select teacher_id from teacher 
 +-----------+--------------+------------+
 2 rows in set (0.00 sec)
 ```
-47.查询最高分同学的student_id、course_id和degree列
+47. 查询最高分同学的student_id、course_id和degree列
 ```
 mysql> select * from score where degree in (select max(degree) from score);
 +------------+-----------+--------+
@@ -1444,7 +1444,7 @@ mysql> select * from score where degree in (select max(degree) from score);
 +------------+-----------+--------+
 1 row in set (0.00 sec)
 ```
-48.查询和”李军“同性别的所有同学的student_name
+48. 查询和”李军“同性别的所有同学的student_name
 ```
 mysql> select student_name from student where student_sex in (select student_sex from student where student_name='李军');
 +--------------+
@@ -1461,7 +1461,7 @@ mysql> select student_name from student where student_sex in (select student_sex
 +--------------+
 8 rows in set (0.00 sec)
 ```
-49.查询和”李军“同性别并同班的同学的student_name
+49. 查询和”李军“同性别并同班的同学的student_name
 ```
 mysql> select student_name from student where student_sex in (select student_sex from student where student_name='李军') and class in (select class from student where student_name='李军');
 +--------------+
@@ -1473,7 +1473,7 @@ mysql> select student_name from student where student_sex in (select student_sex
 +--------------+
 3 rows in set (0.00 sec)
 ```
-50.查询所有选修”计算机导论“课程的”男“同学的成绩表
+50. 查询所有选修”计算机导论“课程的”男“同学的成绩表
 ```
 -- 第一步
 mysql> select student_id from student where student_sex='男';
@@ -1514,7 +1514,7 @@ mysql> select * from score where course_id in (select course_id from course wher
 +------------+-----------+--------+
 4 rows in set (0.00 sec)
 ```
-51.假设使用如下命令建立了一个grade表，现查询所有同学的student_id、course_id和grade列
+51. 假设使用如下命令建立了一个grade表，现查询所有同学的student_id、course_id和grade列
 ```
 create table grade(
 	low int(3),
