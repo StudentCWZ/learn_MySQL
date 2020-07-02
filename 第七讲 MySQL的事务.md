@@ -1,6 +1,6 @@
 # 第七讲 MySQL的事务
 ## MySQL事务的概念
-mysql中，事务其实是一个最小的不可分割的工作单元。事务能保证一个业务的完整性。
+1. mysql中，事务其实是一个最小的不可分割的工作单元。事务能保证一个业务的完整性。
 ```
 比如我们银行转账：
 a -> -100
@@ -17,7 +17,7 @@ update user set money=money+100 where name='b';
 -- 多条sql语句，可能会有同时成功的要求，要么就同时失败。
 ```
 ## MySQL控制事务
-1.mysql是默认开启事务的(自动提交)。
+1. mysql是默认开启事务的(自动提交)。
 ```
 mysql> select @@autocommit;
 +--------------+
@@ -27,30 +27,30 @@ mysql> select @@autocommit;
 +--------------+
 1 row in set (0.00 sec)
 ```
-2.默认事务开启的作用：当我们去执行一个sql语句的时候，效果会立即体现出来，且不能回滚。
+2. 默认事务开启的作用：当我们去执行一个sql语句的时候，效果会立即体现出来，且不能回滚。
 ## MySQL事务的相关实践
 ### 默认开启事务(开启自动提交)
-1.新建数据库
+1. 新建数据库
 ```
 create database bank;
 ```
-2.创建user表
+2. 创建user表
 ```
 mysql> create table user(id int primary key,name varchar(20),money int);
 Query OK, 0 rows affected (0.02 sec)
 ```
-3.更改字符集
+3. 更改字符集
 ```
 mysql> alter table user change name name varchar(20) character set utf8;
 Query OK, 0 rows affected (0.03 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 ```
-4.插入数据
+4. 插入数据
 ```
 mysql> insert into user values(1,'a',1000);
 Query OK, 1 row affected (0.00 sec)
 ```
-5.事务回滚：撤销sql语句执行效果(此时回滚无法撤销插入的数据)
+5. 事务回滚：撤销sql语句执行效果(此时回滚无法撤销插入的数据)
 ```
 mysql> rollback;
 Query OK, 0 rows affected (0.00 sec)
@@ -64,7 +64,7 @@ mysql> select * from user;
 1 row in set (0.00 sec)
 ```
 ### 关闭自动提交
-1.设置mysql自动提交为false(关闭了mysql的自动提交)
+1. 设置mysql自动提交为false(关闭了mysql的自动提交)
 ```
 mysql> set autocommit=0;
 Query OK, 0 rows affected (0.00 sec)
@@ -77,7 +77,7 @@ mysql> select @@autocommit;
 +--------------+
 1 row in set (0.00 sec)
 ```
-2.插入数据
+2. 插入数据
 ```
 mysql> insert into user values(2,'b',1000);
 Query OK, 1 row affected (0.00 sec)
@@ -91,7 +91,7 @@ mysql> select * from user;
 +----+------+-------+
 2 rows in set (0.00 sec)
 ```
-3.事务回滚(此时插入数据操作被撤销)
+3. 事务回滚(此时插入数据操作被撤销)
 ```
 mysql> rollback;
 Query OK, 0 rows affected (0.00 sec)
@@ -106,19 +106,19 @@ mysql> select * from user;
 1 row in set (0.00 sec)
 ```
 ### 手动提交
-1.插入数据
+1. 插入数据
 ```
 mysql> insert into user values(2,'b',1000);
 Query OK, 1 row affected (0.00 sec)
 ```
 
-2.手动提交数据
+2. 手动提交数据
 ```
 mysql> commit;
 Query OK, 0 rows affected (0.01 sec)
 ```
 
-3.再撤销，是不可以撤销的(持久性)
+3. 再撤销，是不可以撤销的(持久性)
 ```
 mysql> rollback;
 Query OK, 0 rows affected (0.00 sec)
@@ -136,7 +136,7 @@ mysql> select * from user;
 
 ### MySQL事务的相关操作
 #### 关闭自动提交,回滚有效(事务给我们提供一个返回的机会)
-1.转账操作
+1. 转账操作
 ```
 mysql> update user set money=money-100 where name='a';
 Query OK, 1 row affected (0.00 sec)
@@ -157,7 +157,7 @@ mysql> select * from user;
 2 rows in set (0.00 sec)
 ```
 
-2.事务回滚
+2. 事务回滚
 ```
 mysql> rollback;
 Query OK, 0 rows affected (0.00 sec)
@@ -173,7 +173,7 @@ mysql> select * from user;
 2 rows in set (0.00 sec)
 ```
 #### 开启自动提交，回滚无效
-1.先把默认事务开启打开
+1. 先把默认事务开启打开
 ```
 mysql> set autocommit=1;
 Query OK, 0 rows affected (0.00 sec)
@@ -186,7 +186,7 @@ mysql> select @@autocommit;
 +--------------+
 1 row in set (0.00 sec)
 ```
-2.查看数据
+2. 查看数据
 ```
 mysql> select * from user;
 +----+------+-------+
@@ -197,7 +197,7 @@ mysql> select * from user;
 +----+------+-------+
 2 rows in set (0.00 sec)
 ```
-3.转账操作
+3. 转账操作
 ```
 mysql> update user set money=money-100 where name='a';
 Query OK, 1 row affected (0.00 sec)
@@ -216,7 +216,7 @@ mysql> select * from user;
 +----+------+-------+
 2 rows in set (0.00 sec)
 ```
-4.事务回滚
+4. 事务回滚
 ```
 mysql> rollback;
 Query OK, 0 rows affected (0.00 sec)
@@ -232,8 +232,8 @@ mysql> select * from user;
 2 rows in set (0.00 sec)
 ```
 #### 手动开启事务(此时自动提交已经关闭)
- begin;或者start transaction;(都可以手动开启一个事务)
-- 第一种情况
+-  begin;或者start transaction;(都可以手动开启一个事务)
+1. 第一种情况
 ```
 1.手动开启事务
 mysql> begin;
@@ -271,7 +271,7 @@ mysql> select * from user;
 +----+------+-------+
 2 rows in set (0.00 sec)
 ```
-- 第二种情况
+2. 第二种情况
 ```
 1.手动开启事务
 mysql> start transaction;
@@ -308,8 +308,7 @@ mysql> select * from user;
 +----+------+-------+
 2 rows in set (0.00 sec)
 ```
-- 第三种情况
-事务开启之后，一旦commit提交，就不可以回滚。
+3. 第三种情况：事务开启之后，一旦commit提交，就不可以回滚。
 ```
 1.手动开启事务
 mysql> start transaction;
@@ -351,34 +350,34 @@ mysql> select * from user;
 2 rows in set (0.00 sec)
 ```
 #### 手动开启事务操作总结
-1.事务手动开启
+1. 事务手动开启
 ```
 1.修改默认提交 set autocommit;
 2.begin;
 3.start transaction;
 ```
-2.事务手动提交
+2. 事务手动提交
 ```
 commit;
 ```
-3.事务手动回滚
+3. 事务手动回滚
 ```	
 rollback;
 ```
 ### 事务的四大特性
-A 原子性：事务是最小的单位，不可以再分割。  
-C 一致性：事务要求，同一事物中的sql语句，必须保证同时成功或者同时失败。  
-I 隔离性：事务1和事务2之间是具有隔离性的。  
-D 持久性：事务一旦结束(commit)，就不可以返回。  
+- A 原子性：事务是最小的单位，不可以再分割。  
+- C 一致性：事务要求，同一事物中的sql语句，必须保证同时成功或者同时失败。  
+- I 隔离性：事务1和事务2之间是具有隔离性的。  
+- D 持久性：事务一旦结束(commit)，就不可以返回。  
 
 #### 事务隔离性相关概念
-1.read uncommitted;   读未提交的  
-2.read committed;     读已经提交的  
-3.repeatable read;    可以重复读   
-4.serializable;       串行化
+1. read uncommitted;   读未提交的  
+2. read committed;     读已经提交的  
+3. repeatable read;    可以重复读   
+4. serializable;       串行化
 
 #### 事务隔离性实际操作
-- 查看数据库的隔离级别
+1. 查看数据库的隔离级别
 ```
 # mysql 8.0
 -- 系统级别的
@@ -405,7 +404,7 @@ mysql> select @global.tx_isolation;
 | NULL                 |
 +----------------------+
 ```
-- 修改隔离级别
+2. 修改隔离级别
 ```
 # mysql 8.0
 set global transaction isolation level read uncommitted;
@@ -422,8 +421,7 @@ mysql> select @@tx_isolation;
 +------------------+
 1 row in set, 1 warning (0.00 sec)
 ```
-- read uncommitted
-如果有事务a和事务b，a事务对数据进行操作，在操作的过程中，事务没有被提交，但是b可以看见a操作的结果。
+3. read uncommitted：如果有事务a和事务b，a事务对数据进行操作，在操作的过程中，事务没有被提交，但是b可以看见a操作的结果。
 ```
 1.插入数据(bank数据库 user库)
 
@@ -519,7 +517,7 @@ mysql> select * from user;
 -- 脏读：一个事务读到了另一个事务没有提交的数据，就叫做脏读。
 -- 实际开发是不允许脏读出现的。
 ```
-- read committed(bank数据库 user表)
+4. read committed(bank数据库 user表)
 ```
 1.修改隔离级别
 -- mysql 8.0
@@ -596,7 +594,7 @@ mysql> select avg(money) from user;
 -- 读取同一个表的数据，发现前后不一致。
 -- 不可重复读(read committed)
 ```
-- repeatable read(bank数据库 user表)
+5. repeatable read(bank数据库 user表)
 ```
 1.修改隔离级别
 -- mysql 8.0
@@ -672,7 +670,7 @@ mysql> select * from user;
 -- 这种现象叫做幻读！！
 -- 事务a和事务b同时操作一张表，事务a提交的数据，也不能被事务b读到，就造成幻读。
 ```
-- serializable(bank数据库 user表)
+6. serializable(bank数据库 user表)
 ```
 1.修改隔离级别
 -- mysql 8.0
@@ -786,7 +784,7 @@ mysql> select * from user;
 -- 进入排队状态，知道王尼玛提交事务结束之后，张全蛋这个写入操作才会执行。
 -- 在没有等待超时的情况下。
 ```
-- 事务隔离性小结
+7. 事务隔离性小结
 ```
 -- mysql默认隔离级别是repeatable read
 -- 隔离级别越高，性能越差
