@@ -1,5 +1,5 @@
 # Learn_MySQL
-Learn and apply MySQL
+- Learn and apply MySQL
 ## Course content
 - MySQL related understanding and installation
 - MySQL preliminary learning
